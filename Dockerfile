@@ -6,12 +6,12 @@ RUN date > /root/date
 RUN yum install wget unzip git mongodb -y
 RUN mkdir /opt/stack
 RUN git clone https://git.openstack.org/openstack/ceilometer.git /opt/stack/
-RUN cd /opt/stack
-RUN python /opt/stack/setup.py install
+WORKDIR /opt/stack
+RUN python setup.py install
 RUN mkdir -p /etc/ceilometer
 RUN cp /opt/stack/etc/ceilometer/*.json /etc/ceilometer
 RUN cp /opt/stack/etc/ceilometer/*.yaml /etc/ceilometer
-RUN cp etc/ceilometer/ceilometer.conf.sample /etc/ceilometer/ceilometer.conf
+RUN cp /opt/stack/etc/ceilometer/ceilometer.conf.sample /etc/ceilometer/ceilometer.conf
 
 #Things that will likely be removed later
 #RUN wget https://github.com/jameslabocki/ceilometer/archive/master.zip -O /opt/master.zip
