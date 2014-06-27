@@ -7,7 +7,7 @@ RUN yum install wget unzip git mongodb -y
 RUN mkdir /opt/stack
 RUN git clone https://git.openstack.org/openstack/ceilometer.git /opt/stack/
 RUN cd /opt/stack
-RUN python setup.py install
+RUN python /opt/stack/setup.py install
 RUN mkdir -p /etc/ceilometer
 RUN cp /opt/stack/etc/ceilometer/*.json /etc/ceilometer
 RUN cp /opt/stack/etc/ceilometer/*.yaml /etc/ceilometer
