@@ -3,7 +3,8 @@ MAINTAINER james
 
 RUN date > /root/date
 
-RUN yum install wget unzip git mongodb -y
+RUN rpm -qi python-setuptools > /root/pythontools.info
+RUN yum install wget unzip git mongodb python-setuptools -y
 RUN mkdir /opt/stack
 RUN git clone https://git.openstack.org/openstack/ceilometer.git /opt/stack/
 WORKDIR /opt/stack
