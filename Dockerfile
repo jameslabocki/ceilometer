@@ -3,9 +3,21 @@ MAINTAINER james
 
 RUN date > /root/date
 
-RUN yum install wget unzip -y
-RUN wget https://github.com/jameslabocki/ceilometer/archive/master.zip -O /opt/master.zip
-RUN unzip /opt/master.zip -d /opt
-RUN ls -lR /opt/ > /root/opt.ls
+RUN yum install wget unzip git mongodb -y
+RUN mkdir /opt/stack
+RUN git clone https://git.openstack.org/openstack/ceilometer.git /opt/stack/
+RUN cd /opt/stack
+RUN sudo python setup.py install
+RUN mkdir -p /etc/ceilometer
+RUN cp /opt/stack/etc/ceilometer/*.json /etc/ceilometer
+RUN cp /opt/stack/etc/ceilometer/*.yaml /etc/ceilometer
+RUN cp etc/ceilometer/ceilometer.conf.sample /etc/ceilometer/ceilometer.conf
+
+#Things that will likely be removed later
+#RUN wget https://github.com/jameslabocki/ceilometer/archive/master.zip -O /opt/master.zip
+#RUN unzip /opt/master.zip -d /opt
+#RUN ls -lR /opt/ > /root/opt.ls
+#RUN wget http://arm.koji.fedoraproject.org//packages/python-tox/1.6.1/1.fc21/noarch/python-tox-1.6.1-1.fc21.noarch.rpm -O /root/python-tox-1.6.1-1.fc21.noarch.rpm
+#RUN yum localinstall /root/python-tox-1.6.1-1.fc21.noarch.rpm
 
 
