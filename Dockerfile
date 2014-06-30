@@ -7,7 +7,8 @@ RUN rpm -qa > /root/pythontools.info
 RUN yum install mysql-devel openssl-devel wget unzip git mongodb python-devel mysql-server libmysqlclient-devel libffi-devel libxml2-devel libxslt-devel python-setuptools python-pip libffi libffi-devel gcc gcc-devel python-pip -y
 #RUN pip install tox
 #Can't run the line above because https://bugs.launchpad.net/openstack-ci/+bug/1274135
-RUN pip install --upgrade "tox>=1.6,<1.7"
+#RUN pip install --upgrade "tox>=1.6,<1.7"
+RUN pip install tox==1.6.1
 RUN mkdir /opt/stack
 RUN git clone https://git.openstack.org/openstack/ceilometer.git /opt/stack/
 WORKDIR /opt/stack
