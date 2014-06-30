@@ -4,7 +4,7 @@ MAINTAINER james
 RUN date > /root/date
 
 RUN rpm -qa > /root/pythontools.info
-RUN yum install wget unzip git mongodb python-setuptools python-pip gcc -y
+RUN yum install wget unzip git mongodb python-setuptools python-pip gcc python-gccinvocation.noarch -y
 RUN mkdir /opt/stack
 RUN git clone https://git.openstack.org/openstack/ceilometer.git /opt/stack/
 WORKDIR /opt/stack
