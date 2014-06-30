@@ -5,7 +5,8 @@ RUN date > /root/date
 
 RUN rpm -qa > /root/pythontools.info
 RUN yum install mysql-devel openssl-devel wget unzip git mongodb python-devel mysql-server libmysqlclient-devel libffi-devel libxml2-devel libxslt-devel python-setuptools python-pip libffi libffi-devel gcc gcc-devel python-pip -y
-RUN pip install tox
+#RUN pip install tox
+RUN pip install --upgrade "tox>=1.6,<1.7"
 RUN mkdir /opt/stack
 RUN git clone https://git.openstack.org/openstack/ceilometer.git /opt/stack/
 WORKDIR /opt/stack
