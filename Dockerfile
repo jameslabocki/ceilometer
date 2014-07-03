@@ -19,12 +19,15 @@ RUN pip install tox==1.6.1
 #MongoDB Setup
 RUN mkdir -p /data/db
 #RUN /bin/mongod --dbpath /data/db --fork --syslog
+RUN date >> /root/date
 RUN /bin/mongod --dbpath /data/db --syslog
 RUN echo 'db.addUser("admin", "insecure", true);' > /root/mongosetup.js
+RUN date >> /root/date
 #The worst and laziest workaround ever
-#RUN sleep 500
-RUN ps -ef |grep mongo > /root/mongo.ps
-RUN /bin/mongo mydb /root/mongosetup.js
+RUN sleep 700
+RUN ps -ef |grep mongo >> /root/mongo.ps
+RUN date >> /root/date
+#RUN /bin/mongo mydb /root/mongosetup.js
 
 #RabbitMQ Setup
 #RUN /usr/sbin/rabbitmq-server -detached
