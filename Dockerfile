@@ -23,6 +23,9 @@ RUN echo 'db.addUser("admin", "insecure", true);' > /root/mongosetup.js
 #RabbitMQ Setup
 RUN /usr/sbin/rabbitmq-server -detached
 
+#Clone Ceilometer
+RUN git clone https://github.com/jlabocki/ceilometer.git /opt/stack/
+
 #Ceilometer Collector Configuration
 WORKDIR /opt/stack
 RUN python setup.py install
