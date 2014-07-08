@@ -27,7 +27,7 @@ RUN date >> /root/date
 RUN sleep 180 
 RUN ps -ef |grep mongo >> /root/mongo.ps
 RUN date >> /root/date
-#RUN /bin/mongo mydb /root/mongosetup.js
+RUN /bin/mongo mydb /root/mongosetup.js
 
 #RabbitMQ Setup
 #RUN /usr/sbin/rabbitmq-server -detached
