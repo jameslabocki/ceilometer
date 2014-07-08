@@ -20,11 +20,11 @@ RUN pip install tox==1.6.1
 RUN mkdir -p /data/db
 #RUN /bin/mongod --dbpath /data/db --fork --syslog
 RUN date >> /root/date
-RUN /bin/mongod --dbpath /data/db --fork --logpath /root/mongo.log
+RUN /bin/mongod --dbpath /data/db --fork --logpath /root/mongo.log --noprealloc --smallfiles
 RUN echo 'db.addUser("admin", "insecure", true);' > /root/mongosetup.js
 RUN date >> /root/date
 #The worst and laziest workaround ever
-RUN sleep 180 
+#RUN sleep 180 
 RUN ps -ef |grep mongo >> /root/mongo.ps
 RUN date >> /root/date
 RUN /bin/mongo mydb /root/mongosetup.js
