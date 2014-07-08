@@ -18,47 +18,40 @@ RUN pip install tox==1.6.1
 
 #MongoDB Setup
 RUN mkdir -p /data/db
-#RUN /bin/mongod --dbpath /data/db --fork --syslog
-RUN date >> /root/date
-RUN /bin/mongod --dbpath /data/db --fork --logpath /root/mongo.log --noprealloc --smallfiles
 RUN echo 'db.addUser("admin", "insecure", true);' > /root/mongosetup.js
-RUN date >> /root/date
-#The worst and laziest workaround ever
-#RUN sleep 180 
-RUN ps -ef |grep mongo >> /root/mongo.ps
-RUN date >> /root/date
-RUN /bin/mongo mydb /root/mongosetup.js
 
 #RabbitMQ Setup
-#RUN /usr/sbin/rabbitmq-server -detached
+RUN /usr/sbin/rabbitmq-server -detached
 
 #Ceilometer Collector Configuration
-#WORKDIR /opt/stack
-#RUN python setup.py install
-#RUN mkdir -p /etc/ceilometer
-#RUN tox -egenconfig
-#RUN cp /opt/stack/etc/ceilometer/*.json /etc/ceilometer
-#RUN cp /opt/stack/etc/ceilometer/*.yaml /etc/ceilometer
-#RUN cp /opt/stack/etc/ceilometer/ceilometer.conf.sample /etc/ceilometer/ceilometer.conf
+WORKDIR /opt/stack
+RUN python setup.py install
+RUN mkdir -p /etc/ceilometer
+RUN tox -egenconfig
+RUN cp /opt/stack/etc/ceilometer/*.json /etc/ceilometer
+RUN cp /opt/stack/etc/ceilometer/*.yaml /etc/ceilometer
+RUN cp /opt/stack/etc/ceilometer/ceilometer.conf.sample /etc/ceilometer/ceilometer.conf
 
 #Ceilometer Collector Configuration changes
-#RUN sed -ri 's/#metering_secret=change this or be hacked/metering_secret=redhat/' /etc/ceilometer/ceilometer.conf
-#RUN sed -ri 's/#connection=<None>/connection = mongodb://admin:insecure@localhost:27017/ceilometer/' /etc/ceilometer/ceilometer.conf
+RUN sed -ri 's/#metering_secret=change this or be hacked/metering_secret=redhat/' /etc/ceilometer/ceilometer.conf
+RUN sed -ri 's/#connection=<None>/connection = mongodb://admin:insecure@localhost:27017/ceilometer/' /etc/ceilometer/ceilometer.conf
 
 #Ceilometer API Configuration changes
-#RUN cp etc/ceilometer/api_paste.ini /etc/ceilometer/api_paste.ini
+RUN cp etc/ceilometer/api_paste.ini /etc/ceilometer/api_paste.ini
 
 ##Ceilometer Post Launch Configuration
-#RUN echo "#!/bin/bash" > /root/postlaunch.sh
+RUN echo "#!/bin/bash" > /root/postlaunch.sh
 
 #Add Authenticate against keystone to the post launch script
 # KEYSTONE_HOST = the keystone host
-#RUN echo "sed -ri 's/#identity_uri=<None>/identity_uri=KEYSTONE_HOST/' /etc/ceilometer/ceilometer.conf" >> /root/postlaunch.sh
+RUN echo "sed -ri 's/#identity_uri=<None>/identity_uri=KEYSTONE_HOST/' /etc/ceilometer/ceilometer.conf" >> /root/postlaunch.sh
 
 #Add starting services to the postlaunch script
-#RUN echo "/usr/bin/ceilometer-collector" >> /root/postlaunch.sh
-#RUN echo "/usr/bin/ceilometer-api" >> /root/postlaunch.sh
-#RUN chmod 755 /root/postlaunch.sh
+RUN echo "/bin/mongod --dbpath /data/db --fork --logpath /root/mongo.log --noprealloc --smallfiles" >> /root/postlaunch.sh
+RUN echo "/bin/mongo mydb /root/mongosetup.js" >> /root/postlaunch.sh
+RUN echo "/usr/bin/ceilometer-collector" >> /root/postlaunch.sh
+RUN echo "/usr/bin/ceilometer-api" >> /root/postlaunch.sh
+RUN chmod 755 /root/postlaunch.sh
 
 
 
