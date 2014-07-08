@@ -37,7 +37,7 @@ RUN cp /opt/stack/etc/ceilometer/ceilometer.conf.sample /etc/ceilometer/ceilomet
 
 #Ceilometer Collector Configuration changes
 RUN sed -ri 's/#metering_secret=change this or be hacked/metering_secret=redhat/' /etc/ceilometer/ceilometer.conf
-RUN sed -ri 's/#connection=<None>/connection = mongodb://admin:insecure@localhost:27017/ceilometer/' /etc/ceilometer/ceilometer.conf
+RUN sed -ri 's/#connection=<None>/connection = mongodb:\/\/admin:insecure@localhost:27017\/ceilometer/' /etc/ceilometer/ceilometer.conf
 
 #Ceilometer API Configuration changes
 RUN cp etc/ceilometer/api_paste.ini /etc/ceilometer/api_paste.ini
